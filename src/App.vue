@@ -110,10 +110,10 @@
           </div>
           <!-- submit -->
           <div class="form-group">
-            <button class="btn btn-primary">Submit</button>
+            <button class="btn btn-primary" @click.prevent="submitted">Submit</button>
           </div>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-6" v-if="isSubmitted">
           <h1>Form Data</h1>
           <div class="card">
             <div class="card-header">
@@ -158,7 +158,13 @@ export default {
       mailing: [],
       priorities: ['Low', 'Medium', 'High'],
       selectedPriority: 'High',
+      isSubmitted: false,
     };
+  },
+  methods: {
+    submitted() {
+      this.isSubmitted = true;
+    },
   },
 };
 </script>
