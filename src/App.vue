@@ -7,7 +7,13 @@
           <!-- email -->
           <div class="form-group">
             <label for="email"><b>Email</b></label>
-            <input type="email" name="email" id="email" class="form-control" />
+            <input
+              type="email"
+              name="email"
+              id="email"
+              class="form-control"
+              v-model.lazy="userData.email"
+            />
           </div>
           <!-- password -->
           <div class="form-group">
@@ -17,12 +23,43 @@
               name="password"
               id="password"
               class="form-control"
+              v-model.lazy="userData.password"
             />
           </div>
           <!-- age -->
           <div class="form-group">
             <label for="age"><b>Age</b></label>
-            <input type="number" name="age" id="age" class="form-control" />
+            <input
+              type="number"
+              name="age"
+              id="age"
+              class="form-control"
+              v-model.lazy="userData.age"
+            />
+          </div>
+          <!-- gender -->
+          <div class="form-group">
+            <label for=""><b>Gender</b></label><br>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                id="male"
+                value="Male"
+                v-model="userData.gender"
+              />
+              <label class="form-check-label" for="male">Male</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                id="female"
+                value="Female"
+                v-model="userData.gender"
+              />
+              <label class="form-check-label" for="female">Female</label>
+            </div>
           </div>
           <!-- message -->
           <div class="form-group">
@@ -33,12 +70,17 @@
               cols="30"
               rows="3"
               class="form-control"
+              v-model.lazy="message"
             ></textarea>
           </div>
           <!-- mailing -->
           <div class="form-group">
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="checkbox" id="send_main" />
+              <input class="form-check-input"
+              type="checkbox"
+              id="send_main"
+              v-model="mailing"
+              value="send_mail"/>
               <label class="form-check-label" for="send_main"
                 ><b>Send Mail</b></label
               >
@@ -48,41 +90,22 @@
                 class="form-check-input"
                 type="checkbox"
                 id="send_infomail"
-                value="option2"
+                value="send_infomail"
+                v-model="mailing"
               />
               <label class="form-check-label" for="send_infomail"
                 ><b>Send Infomail</b></label
               >
             </div>
           </div>
-          <!-- gender -->
-          <div class="form-group">
-            <div class="form-check form-check-inline">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="gender"
-                id="male"
-              />
-              <label class="form-check-label" for="male"><b>Male</b></label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="gender"
-                id="female"
-              />
-              <label class="form-check-label" for="female"><b>Female</b></label>
-            </div>
-          </div>
           <!-- priority -->
           <div class="form-group">
             <label for="priority"><b>Priority</b></label>
-            <select class="custom-select" id="priority">
-              <option value="low">Low</option>
-              <option value="medium">Medium</option>
-              <option value="high">High</option>
+            <select class="custom-select" id="priority" v-model="selectedPriority">
+              <option v-for="priority in priorities"
+              :selected="priority == 'Medium'">
+              {{priority}}
+              </option>
             </select>
           </div>
           <!-- submit -->
@@ -97,20 +120,21 @@
               User Data
             </div>
             <div class="card-body">
+              <p class="card-text">Email: {{ userData.email }}</p>
+              <p class="card-text">Password: {{ userData.password }}</p>
+              <p class="card-text">Age: {{ userData.age }}</p>
+              <p class="card-text">Message: {{ message }}</p>
               <p class="card-text">
-                Email:
-                <hr>
-                Password:
-                <hr>
-                Age:
-                <hr>
-                Message:
-                <hr>
                 Mailing:
-                <hr>
-                Gender:
-                <hr>
-                Priority:
+                <ul>
+                  <li v-for="item in mailing">{{item}}</li>
+                </ul>
+              </p>
+              <p class="card-text">
+                Gender: {{userData.gender}}
+              </p>
+              <p class="card-text">
+                Priority: {{selectedPriority}}
               </p>
             </div>
           </div>
@@ -121,7 +145,22 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      userData: {
+        email: '',
+        password: '',
+        age: '',
+        gender: 'Male',
+      },
+      message: '',
+      mailing: [],
+      priorities: ['Low', 'Medium', 'High'],
+      selectedPriority: 'High',
+    };
+  },
+};
 </script>
 
 <style></style>
